@@ -1,0 +1,29 @@
+import { format, isValid, parseISO } from "date-fns";
+
+export const formatCurrency = (value: number, currency = "USD"): string => {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+  } catch {
+    return value.toFixed(2);
+  }
+};
+
+export const formatSubscriptionDateTime = (value?: string): string => {
+  if (!value) return "Not provided";
+
+  const parsedDate = parseISO(value);
+
+  return isValid(parsedDate)
+    ? format(parsedDate, "MM/dd/yyyy")
+    : "Not provided";
+};
+
+export const formatStatusLabel = (value?: string): string => {
+  if (!value) return "Unknown";
+  return value.charAt(0).toUpperCase() + value.slice(1);
+};
